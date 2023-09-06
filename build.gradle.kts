@@ -16,6 +16,8 @@ val kotlinVersion: String by project
 val springBootVersion: String by project
 val flywayVersion: String by project
 
+val kotlinCoroutinesVersion: String by project
+
 val sonaTypeBasePath = "https://s01.oss.sonatype.org"
 
 val gitHubProject = "waves-enterprise/we-flyway-starter"
@@ -231,6 +233,7 @@ subprojects {
             }
             dependencies {
                 dependency("org.flywaydb:flyway-core:$flywayVersion")
+                dependency("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:$kotlinCoroutinesVersion")
             }
         }
     }

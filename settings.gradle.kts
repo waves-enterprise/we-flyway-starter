@@ -21,6 +21,7 @@ pluginManagement {
         id("org.jlleitschuh.gradle.ktlint") version ktlintVersion apply false
         id("com.palantir.git-version") version palantirGitVersion apply false
         id("com.gorylenko.gradle-git-properties") version gitPropertiesVersion apply false
+        id("jacoco")
         id("fr.brouillard.oss.gradle.jgitver") version jGitVerVersion
         id("org.jetbrains.dokka") version dokkaVersion
         id("io.codearte.nexus-staging") version nexusStagingVersion

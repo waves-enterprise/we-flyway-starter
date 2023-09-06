@@ -14,6 +14,7 @@ val sonaTypeMavenPassword: String? by project
 
 val kotlinVersion: String by project
 val springBootVersion: String by project
+val flywayVersion: String by project
 
 val sonaTypeBasePath = "https://s01.oss.sonatype.org"
 
@@ -225,16 +226,18 @@ subprojects {
 
     the<DependencyManagementExtension>().apply {
         imports {
-            mavenBom("org.springframework.boot:spring-boot-dependencies:$springBootVersion")
             mavenBom("org.springframework.boot:spring-boot-dependencies:$springBootVersion") {
                 bomProperty("kotlin.version", kotlinVersion)
+            }
+            dependencies {
+                dependency("org.flywaydb:flyway-core:$flywayVersion")
             }
         }
     }
 
     tasks.withType<KotlinCompile>().configureEach {
         kotlinOptions {
-            freeCompilerArgs = listOf("-Xjsr305=strict", "-Xjvm-default=enable")
+            freeCompilerArgs = listOf("-Xjsr305=strict")
             jvmTarget = JavaVersion.VERSION_1_8.toString()
         }
     }

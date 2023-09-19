@@ -213,6 +213,19 @@ subprojects {
                         developerConnection.set("scm:git@github.com:$gitHubProject.git")
                         url.set(githubUrl)
                     }
+
+                    developers {
+                        developer {
+                            id.set("kt3")
+                            name.set("Stepan Kashintsev")
+                            email.set("kpote3@gmail.com")
+                        }
+                        developer {
+                            id.set("donyfutura")
+                            name.set("Daniil Georgiev")
+                            email.set("donyfutura@gmail.com")
+                        }
+                    }
                 }
             }
         }

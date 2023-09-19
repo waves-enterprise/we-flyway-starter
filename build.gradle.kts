@@ -7,19 +7,21 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 val weMavenUser: String? by project
 val weMavenPassword: String? by project
 
+val weMavenBasePath = "https://artifacts.wavesenterprise.com/repository/"
+
 val sonaTypeMavenUser: String? by project
-
 val sonaTypeMavenPassword: String? by project
-val kotlinVersion: String by project
 
+val kotlinVersion: String by project
 val springBootVersion: String by project
 val flywayVersion: String by project
+
 val kotlinCoroutinesVersion: String by project
 
-val sonaTypeBasePath: String by project
-val weMavenBasePath: String by project
-val gitHubProject: String by project
-val githubUrl: String by project
+val sonaTypeBasePath = "https://s01.oss.sonatype.org"
+
+val gitHubProject = "waves-enterprise/we-flyway-starter"
+val githubUrl = "https://github.com/$gitHubProject"
 
 plugins {
     kotlin("jvm") apply false
@@ -196,8 +198,8 @@ subprojects {
                 pom {
                     packaging = "jar"
                     name.set(project.name)
-                    url.set(githubUrl + gitHubProject)
-                    description.set("WE Flyway Starter")
+                    url.set(githubUrl)
+                    description.set("WE Node Client for Java/Kotlin")
 
                     licenses {
                         license {
@@ -207,9 +209,22 @@ subprojects {
                     }
 
                     scm {
-                        connection.set("scm:$githubUrl$gitHubProject")
+                        connection.set("scm:$githubUrl")
                         developerConnection.set("scm:git@github.com:$gitHubProject.git")
-                        url.set(githubUrl + gitHubProject)
+                        url.set(githubUrl)
+                    }
+
+                    developers {
+                        developer {
+                            id.set("kt3")
+                            name.set("Stepan Kashintsev")
+                            email.set("kpote3@gmail.com")
+                        }
+                        developer {
+                            id.set("donyfutura")
+                            name.set("Daniil Georgiev")
+                            email.set("donyfutura@gmail.com")
+                        }
                     }
                 }
             }

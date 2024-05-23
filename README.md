@@ -2,7 +2,7 @@
 
 Starter that enables shipping Spring Boot Starters with an additional DB schema for it initialized using Flyway.
 
-## Usage
+## Usage.
 
 To add a schema with your starter add a bean of type `FlywaySchema` to your Spring Application Context:
 

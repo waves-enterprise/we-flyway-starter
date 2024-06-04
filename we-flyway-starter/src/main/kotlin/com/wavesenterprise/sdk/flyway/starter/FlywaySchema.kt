@@ -1,4 +1,4 @@
-package com.wavesenterprise.we.flyway.starter
+package com.wavesenterprise.sdk.flyway.starter
 
 interface FlywaySchema {
     fun getName(): String

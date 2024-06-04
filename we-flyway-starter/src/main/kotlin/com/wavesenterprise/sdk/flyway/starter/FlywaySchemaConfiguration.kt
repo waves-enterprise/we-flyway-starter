@@ -1,6 +1,6 @@
-package com.wavesenterprise.we.flyway.starter
+package com.wavesenterprise.sdk.flyway.starter
 
-import com.wavesenterprise.we.flyway.starter.PropertyMapper.configuration
+import com.wavesenterprise.sdk.flyway.starter.PropertyMapper.configuration
 import org.flywaydb.core.Flyway
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired

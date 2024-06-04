@@ -1,4 +1,4 @@
-package com.wavesenterprise.we.flyway.starter
+package com.wavesenterprise.sdk.flyway.starter
 
 import org.flywaydb.core.api.configuration.FluentConfiguration
 import org.springframework.boot.autoconfigure.flyway.FlywayProperties

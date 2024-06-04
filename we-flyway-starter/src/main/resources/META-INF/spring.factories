@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.wavesenterprise.we.flyway.starter.FlywaySchemaConfiguration
+com.wavesenterprise.sdk.flyway.starter.FlywaySchemaConfiguration

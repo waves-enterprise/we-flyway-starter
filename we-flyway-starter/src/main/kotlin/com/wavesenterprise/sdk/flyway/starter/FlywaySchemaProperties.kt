@@ -5,10 +5,10 @@ import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.ConstructorBinding
 import org.springframework.boot.context.properties.bind.DefaultValue
 
-@ConstructorBinding
 @ConfigurationProperties(prefix = "spring.flyway")
-class FlywaySchemaProperties(
+@ConstructorBinding
+data class FlywaySchemaProperties(
     @DefaultValue("false")
     val mainAppFirst: Boolean,
-    val configurations: Map<String, FlywayProperties> = mutableMapOf()
+    val configurations: Map<String, FlywayProperties> = mutableMapOf(),
 )

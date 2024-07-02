@@ -5,6 +5,7 @@ import org.gradle.api.tasks.testing.logging.TestLogEvent
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 val detektVersion: String by project
+val jacocoToolVersion: String by project
 
 val weMavenUser: String? by project
 val weMavenPassword: String? by project
@@ -99,13 +100,12 @@ subprojects {
         detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:$detektVersion")
     }
 
-    val jacocoCoverageFile = "$buildDir/jacocoReports/test/jacocoTestReport.xml"
-
+    val jacocoCoverageFile = layout.buildDirectory.file("jacocoReports/test/jacocoTestReport.xml").get().asFile
     tasks.withType<JacocoReport> {
         reports {
             xml.apply {
                 required.set(true)
-                outputLocation.set(file(jacocoCoverageFile))
+                outputLocation.set(jacocoCoverageFile)
             }
         }
     }
@@ -271,5 +271,10 @@ subprojects {
             freeCompilerArgs = listOf("-Xjsr305=strict")
             jvmTarget = JavaVersion.VERSION_17.toString()
         }
+    }
+
+    jacoco {
+        toolVersion = jacocoToolVersion
+        reportsDirectory.set(layout.buildDirectory.dir("jacocoReports").get().asFile)
     }
 }

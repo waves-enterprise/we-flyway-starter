@@ -37,7 +37,7 @@ plugins {
     id("io.gitlab.arturbosch.detekt")
     id("com.gorylenko.gradle-git-properties") apply false
     id("com.palantir.git-version") apply false
-    id("io.codearte.nexus-staging")
+    id("io.github.gradle-nexus.publish-plugin")
     id("fr.brouillard.oss.gradle.jgitver")
     id("org.jetbrains.dokka")
     id("jacoco")
@@ -49,10 +49,17 @@ jgitver {
     nonQualifierBranches = "master"
 }
 
-nexusStaging {
-    serverUrl = "$sonaTypeBasePath/service/local/"
-    username = sonaTypeMavenUser
-    password = sonaTypeMavenPassword
+if (sonaTypeMavenUser != null && sonaTypeMavenUser != null) {
+    nexusPublishing {
+        repositories {
+            sonatype {
+                nexusUrl.set(uri("$sonaTypeBasePath/service/local/"))
+                snapshotRepositoryUrl.set(uri("$sonaTypeBasePath/content/repositories/snapshots/"))
+                username.set(sonaTypeMavenUser)
+                password.set(sonaTypeMavenPassword)
+            }
+        }
+    }
 }
 
 jgitver {

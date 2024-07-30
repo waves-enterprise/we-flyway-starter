@@ -8,7 +8,7 @@ import org.springframework.test.context.ContextConfiguration
 @ContextConfiguration(
     classes = [
         FlywaySchemaConfiguration::class,
-    ]
+    ],
 )
 class ContextTest {
 

@@ -14,6 +14,7 @@ object PropertyMapper {
 
     // copied from
     // org.springframework.boot.autoconfigure.flyway.FlywayAutoConfiguration.FlywayConfiguration.configureProperties
+    @Suppress("SpreadOperator")
     private fun configureProperties(configuration: FluentConfiguration, properties: FlywayProperties) {
         with(properties) {
             locations?.let { locations ->

@@ -14,6 +14,7 @@ object PropertyMapper {
 
     // copied from
     // org.springframework.boot.autoconfigure.flyway.FlywayAutoConfiguration.FlywayConfiguration.configureProperties
+    @Suppress("SpreadOperator")
     private fun configureProperties(configuration: FluentConfiguration, properties: FlywayProperties) {
         with(properties) {
             locations?.let { locations ->
@@ -27,7 +28,7 @@ object PropertyMapper {
             }
 
             encoding.let(configuration::encoding)
-            connectRetries?.let(configuration::connectRetries)
+            connectRetries.let(configuration::connectRetries)
             table?.let(configuration::table)
             tablespace?.let(configuration::tablespace)
             baselineDescription?.let(configuration::baselineDescription)
@@ -41,27 +42,23 @@ object PropertyMapper {
             sqlMigrationSeparator.let(configuration::sqlMigrationSeparator)
             repeatableSqlMigrationPrefix?.let(configuration::repeatableSqlMigrationPrefix)
             target?.let(configuration::target)
-            isBaselineOnMigrate?.let(configuration::baselineOnMigrate)
-            isCleanDisabled?.let(configuration::cleanDisabled)
-            isCleanOnValidationError?.let(configuration::cleanOnValidationError)
-            isGroup?.let(configuration::group)
+            isBaselineOnMigrate.let(configuration::baselineOnMigrate)
+            isCleanDisabled.let(configuration::cleanDisabled)
+            isCleanOnValidationError.let(configuration::cleanOnValidationError)
+            isGroup.let(configuration::group)
             ignoreMigrationPatterns?.let { ignoreMigrationPatterns: List<String> ->
                 configuration
                     .ignoreMigrationPatterns(*ignoreMigrationPatterns.toTypedArray<String>())
             }
-            isMixed?.let(configuration::mixed)
-            isOutOfOrder?.let(configuration::outOfOrder)
-            isSkipDefaultCallbacks?.let(configuration::skipDefaultCallbacks)
-            isSkipDefaultResolvers?.let(configuration::skipDefaultResolvers)
-            isValidateOnMigrate?.let(configuration::validateOnMigrate)
+            isMixed.let(configuration::mixed)
+            isOutOfOrder.let(configuration::outOfOrder)
+            isSkipDefaultCallbacks.let(configuration::skipDefaultCallbacks)
+            isSkipDefaultResolvers.let(configuration::skipDefaultResolvers)
+            isValidateOnMigrate.let(configuration::validateOnMigrate)
             batch?.let(configuration::batch)
             dryRunOutput?.let(configuration::dryRunOutput)
             errorOverrides?.let(configuration::errorOverrides)
-            licenseKey?.let(configuration::licenseKey)
-            oracleSqlplus?.let(configuration::oracleSqlplus)
-            oracleSqlplusWarn?.let(configuration::oracleSqlplusWarn)
             stream?.let(configuration::stream)
-            undoSqlMigrationPrefix?.let(configuration::undoSqlMigrationPrefix)
         }
     }
 }

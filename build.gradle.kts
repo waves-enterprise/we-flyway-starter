@@ -4,6 +4,9 @@ import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
+val detektVersion: String by project
+val jacocoToolVersion: String by project
+
 val weMavenUser: String? by project
 val weMavenPassword: String? by project
 
@@ -31,11 +34,10 @@ plugins {
     signing
     id("org.springframework.boot") apply false
     id("io.spring.dependency-management") apply false
-    id("io.gitlab.arturbosch.detekt") apply false
+    id("io.gitlab.arturbosch.detekt")
     id("com.gorylenko.gradle-git-properties") apply false
-    id("org.jlleitschuh.gradle.ktlint") apply false
     id("com.palantir.git-version") apply false
-    id("io.codearte.nexus-staging")
+    id("io.github.gradle-nexus.publish-plugin")
     id("fr.brouillard.oss.gradle.jgitver")
     id("org.jetbrains.dokka")
     id("jacoco")
@@ -47,10 +49,17 @@ jgitver {
     nonQualifierBranches = "master"
 }
 
-nexusStaging {
-    serverUrl = "$sonaTypeBasePath/service/local/"
-    username = sonaTypeMavenUser
-    password = sonaTypeMavenPassword
+if (sonaTypeMavenUser != null && sonaTypeMavenUser != null) {
+    nexusPublishing {
+        repositories {
+            sonatype {
+                nexusUrl.set(uri("$sonaTypeBasePath/service/local/"))
+                snapshotRepositoryUrl.set(uri("$sonaTypeBasePath/content/repositories/snapshots/"))
+                username.set(sonaTypeMavenUser)
+                password.set(sonaTypeMavenPassword)
+            }
+        }
+    }
 }
 
 jgitver {
@@ -91,17 +100,19 @@ subprojects {
     apply(plugin = "maven-publish")
     apply(plugin = "signing")
     apply(plugin = "io.gitlab.arturbosch.detekt")
-    apply(plugin = "org.jlleitschuh.gradle.ktlint")
     apply(plugin = "jacoco")
     apply(plugin = "org.jetbrains.dokka")
 
-    val jacocoCoverageFile = "$buildDir/jacocoReports/test/jacocoTestReport.xml"
+    dependencies {
+        detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:$detektVersion")
+    }
 
+    val jacocoCoverageFile = layout.buildDirectory.file("jacocoReports/test/jacocoTestReport.xml").get().asFile
     tasks.withType<JacocoReport> {
         reports {
             xml.apply {
                 required.set(true)
-                outputLocation.set(file(jacocoCoverageFile))
+                outputLocation.set(jacocoCoverageFile)
             }
         }
     }
@@ -130,6 +141,24 @@ subprojects {
         config.setFrom(detektConfigFilePath)
         buildUponDefaultConfig = true
     }
+
+    tasks.register<Detekt>("detektFormat") {
+        description = "Runs detekt with auto-correct to format the code."
+        group = "formatting"
+        autoCorrect = true
+        exclude("resources/")
+        exclude("build/")
+        config.setFrom(detektConfigFilePath)
+        setSource(
+            files(
+                "src/main/java",
+                "src/test/java",
+                "src/main/kotlin",
+                "src/test/kotlin",
+            )
+        )
+    }
+
 
     val sourcesJar by tasks.creating(Jar::class) {
         group = JavaBasePlugin.DOCUMENTATION_GROUP
@@ -254,7 +283,12 @@ subprojects {
     tasks.withType<KotlinCompile>().configureEach {
         kotlinOptions {
             freeCompilerArgs = listOf("-Xjsr305=strict")
-            jvmTarget = JavaVersion.VERSION_1_8.toString()
+            jvmTarget = JavaVersion.VERSION_17.toString()
         }
+    }
+
+    jacoco {
+        toolVersion = jacocoToolVersion
+        reportsDirectory.set(layout.buildDirectory.dir("jacocoReports").get().asFile)
     }
 }
